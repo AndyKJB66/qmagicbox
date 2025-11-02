@@ -1,0 +1,1798 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快捷魔方 - 让语文教学更便捷更高效</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#8b5cf6',
+                        accent: '#f59e0b',
+                        success: '#10b981',
+                        light: '#f8fafc',
+                        dark: '#1e293b',
+                        gray: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+                        'medium': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        'large': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        'glow': '0 0 20px rgba(139, 92, 246, 0.3)'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .text-shadow-lg {
+                text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+            }
+            .transition-all-300 {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .transition-all-500 {
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #1e40af 0%, #8b5cf6 50%, #3b82f6 100%);
+            }
+            .bg-gradient-secondary {
+                background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            }
+            .bg-gradient-accent {
+                background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            }
+            .card-hover:hover {
+                transform: translateY(-8px) scale(1.02);
+            }
+            .glass-effect {
+                backdrop-filter: blur(16px) saturate(180%);
+                background-color: rgba(255, 255, 255, 0.75);
+                border: 1px solid rgba(209, 213, 219, 0.3);
+            }
+            .gradient-text {
+                background: linear-gradient(135deg, #1e40af, #8b5cf6);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="font-sans text-dark bg-light">
+    <!-- 导航栏 -->
+    <header class="fixed w-full glass-effect z-50 border-b border-gray-200/20">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="mr-3 p-2 bg-gradient-primary rounded-xl shadow-glow">
+                    <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" overflow="hidden"><defs><clipPath id="clip0"><rect x="-41" y="195" width="37" height="38"/></clipPath></defs><g clip-path="url(#clip0)" transform="translate(41 -195)"><path d="M-41 195-4 195-4 233-41 233Z" fill="#FFFFFF" fill-opacity="0.0117647"/><path d="M-9.86501 195.002-8.627 195.001-7.416 195.001-6.701 195.001-5.909 195.002-5.675 195.001C-5.229 195.003-4.79201 195.026-4.35001 195.081L-4 195.361-4 195.99-4.151 196.153-4.354 196.374-4.461 196.491C-4.646 196.692-4.828 196.895-5.005 197.103-5.263 197.401-5.54401 197.677-5.826 197.952-6.02499 198.148-6.214 198.347-6.396 198.559-6.701 198.912-7.033 199.238-7.364 199.567L-7.55099 199.753-8.17 200.366C-8.312 200.507-8.44 200.646-8.56599 200.803-8.701 200.968-8.683 200.924-9.005 201.24L-12.63 204.686C-12.892 204.897-13.133 205.114-13.368 205.355-13.659 205.653-13.966 205.914-14.291 206.173-14.491 206.337-14.681 206.508-14.871 206.683-15.183 206.97-15.506 207.24-15.837 207.506-16.021 207.658-16.198 207.815-16.374 207.976-16.881 208.437-17.415 208.861-17.957 209.279-18.144 209.426-18.325 209.579-18.506 209.732-18.993 210.142-19.501 210.524-20.008 210.909L-20.382 211.197C-20.967 211.652-21.565 212.086-22.167 212.516L-22.567 212.805C-23.64 213.578-24.738 214.315-25.851 215.03L-26.183 215.244C-27.02 215.786-27.877 216.288-28.743 216.783-29.082 216.977-29.418 217.175-29.752 217.377L-29.877 217.451-30.426 217.783C-30.851 218.036-31.283 218.264-31.727 218.482-32.029 218.631-32.329 218.786-32.626 218.946-37.268 221.439-37.268 221.439-39.61 221.962-39.905 222.006-40.195 222.007-40.492 221.99L-40.912 221.64C-40.966 221.13-40.992 220.629-40.992 220.116-40.992 220.046-40.992 219.975-40.992 219.901-40.993 219.669-40.994 219.437-40.994 219.205-40.994 219.043-40.994 218.881-40.994 218.718-40.994 218.379-40.995 218.04-40.994 217.7-40.994 217.266-40.996 216.831-40.997 216.397-40.998 216.063-40.998 215.728-40.998 215.393-40.998 215.232-40.998 215.072-40.999 214.912-40.999 214.689-40.999 214.465-40.999 214.241-40.999 214.176-40.999 214.109-41 214.041-40.999 213.767-40.985 213.545-40.911 213.278-40.888 213.224-40.865 213.169-40.842 213.113-40.667 212.934-40.484 212.773-40.283 212.624-39.988 212.465-39.681 212.337-39.374 212.205-36.732 211.012-34.268 209.454-31.894 207.801L-31.703 207.669C-31.251 207.354-30.804 207.035-30.357 206.714L-29.901 206.388C-29.38 206.016-28.867 205.642-28.377 205.231-28.158 205.05-27.935 204.874-27.712 204.699L-27.587 204.602-26.962 204.114C-26.443 203.709-25.935 203.293-25.435 202.865L-25.088 202.572C-24.738 202.278-24.392 201.984-24.055 201.677-23.819 201.462-23.578 201.257-23.33 201.057-22.957 200.754-22.6 200.437-22.246 200.113L-21.853 199.755-21.658 199.577C-21.507 199.44-21.353 199.307-21.198 199.174-20.93 198.942-20.682 198.691-20.433 198.439-20.208 198.212-19.975 198.001-19.732 197.793-19.439 197.532-19.167 197.248-18.891 196.968L-18.715 196.793C-18.603 196.68-18.491 196.568-18.381 196.454-17.923 195.985-17.453 195.509-16.881 195.18-16.709 195.109-16.562 195.078-16.375 195.057-16.099 195.043-15.823 195.037-15.547 195.033L-15.211 195.026C-13.429 194.992-11.647 195.001-9.86501 195.002Z" fill="#FFFFFF" fill-rule="evenodd"/><path d="M-18.687 215.006-18.503 215C-18.304 215.023-18.304 215.023-18.071 215.103-17.939 215.168-17.833 215.236-17.719 215.332-17.607 215.444-17.499 215.559-17.393 215.677L-17.276 215.804C-17.001 216.104-16.736 216.412-16.482 216.732L-15.288 218.169C-15.004 218.493-14.737 218.829-14.475 219.173-14.317 219.374-14.153 219.566-13.986 219.758-13.708 220.076-13.448 220.404-13.191 220.741-12.948 221.051-12.69 221.346-12.434 221.645-12.175 221.949-11.926 222.26-11.683 222.579-11.403 222.943-11.105 223.283-10.801 223.624-10.526 223.934-10.269 224.256-10.017 224.589-9.86099 224.788-9.698 224.979-9.533 225.169-9.257 225.485-8.99699 225.813-8.742 226.148-8.53 226.418-8.30499 226.673-8.07899 226.931-7.91901 227.12-7.76801 227.312-7.618 227.509-7.39 227.808-7.14999 228.092-6.901 228.373-6.59801 228.715-6.312 229.068-6.033 229.433-5.89301 229.614-5.74699 229.788-5.59801 229.961-4.30701 231.462-4.30701 231.462-4 232.111L-4.067 232.751-4.405 232.965-8.50999 232.979-10.416 232.986-12.078 232.991-12.957 232.995-13.786 232.997-14.089 232.998C-14.473 233.003-14.847 233.006-15.221 232.904-15.478 232.808-15.705 232.703-15.937 232.551L-16.082 232.42-16.249 232.269C-16.53 231.999-16.801 231.72-17.068 231.434L-17.232 231.26C-17.52 230.955-17.797 230.643-18.063 230.317-18.215 230.131-18.373 229.951-18.531 229.77-18.94 229.301-19.347 228.831-19.741 228.35-19.989 228.05-20.246 227.759-20.502 227.467-20.724 227.215-20.94 226.96-21.153 226.701-21.303 226.52-21.456 226.343-21.61 226.166-21.801 225.945-21.864 225.86-22.174 225.498L-23.47 223.995C-23.835 223.564-24.049 223.262-24.363 222.913-24.573 222.678-24.757 222.451-24.895 222.161-24.924 222.084-24.953 222.008-24.983 221.93-25.005 221.618-25.007 221.315-24.983 221.004-24.87 220.538-24.642 220.13-24.412 219.72-24.108 219.195-23.769 218.741-23.364 218.298-23.281 218.2-23.2 218.1-23.119 218-22.34 217.061-21.389 216.302-20.389 215.641-20.006 215.408-19.6 215.189-19.177 215.048-19.013 215.017-18.855 215.008-18.687 215.006Z" fill="#FFFFFF" fill-rule="evenodd"/><path d="M-37.183 195.006-36.694 195.005-35.674 195.005-34.371 195.003-33.363 195.002-32.882 195.001-32.211 195.001-32.013 195C-31.657 195.001-31.329 195.034-30.981 195.112-30.847 195.153-30.847 195.153-30.616 195.276-30.428 195.423-30.289 195.573-30.148 195.762-30.043 196.106-29.999 196.419-30 196.778-30.004 197.043-30.012 197.308-30.022 197.573-30.023 197.629-30.025 197.685-30.027 197.743-30.055 198.605-30.114 199.45-30.288 200.298-30.297 200.346-30.306 200.394-30.316 200.445-30.528 201.535-30.946 202.571-31.476 203.552-31.75 204.044-32.044 204.517-32.385 204.97L-32.543 205.184C-33.231 206.087-34.065 206.912-34.984 207.593-36.272 208.512-37.67 209.286-39.164 209.844-40.14 210.186-40.755 209.896-40.841 209.641-40.927 209.386-40.98 209.177-40.998 208.908-40.999 208.812-40.999 208.718-40.998 208.622-40.999 208.569-40.999 208.517-40.999 208.462-41 208.286-40.999 208.11-40.999 207.934-40.999 207.807-40.999 207.68-41 207.553-41 207.21-41 206.867-41 206.523-40.999 206.164-41 205.804-41 205.444-41 204.84-41 204.236-40.999 203.633-40.998 202.935-40.998 202.237-40.999 201.539-41 200.939-41 200.34-41 199.74L-41 198.666C-41 198.329-41 197.993-40.999 197.657L-40.999 197.286C-41 197.118-40.999 196.949-40.998 196.781-40.999 196.732-40.999 196.684-41 196.634-40.998 196.399-40.975 196.189-40.91 195.965-40.887 195.898-40.864 195.831-40.841 195.762L-40.422 195.288C-40.255 195.198-40.115 195.137-39.932 195.085-39.025 194.973-38.096 195.006-37.183 195.006Z" fill="#FFFFFF" fill-rule="evenodd"/><path d="M-23.028 215C-22.832 215.021-23.708 215.611-23.922 215.815-24.054 215.949-24.184 216.086-24.315 216.223-24.45 216.363-24.582 216.489-24.733 216.611-24.891 216.743-25.003 216.866-25.116 217.037L-25.539 217.472-25.712 217.639C-26.079 218.001-26.398 218.388-26.717 218.794L-27.034 219.184C-27.086 219.248-27.139 219.313-27.192 219.38L-27.477 219.729C-27.854 220.194-28.194 220.682-28.534 221.174-28.694 221.406-28.859 221.633-29.027 221.858-29.326 222.272-29.581 222.708-29.837 223.15-29.917 223.287-29.998 223.423-30.081 223.558-31.491 225.897-32.574 228.498-33.295 231.136-33.411 231.558-33.544 231.963-33.746 232.352-33.902 232.567-33.902 232.567-34.024 232.703-34.187 232.787-34.337 232.857-34.511 232.914-34.737 232.946-34.962 232.948-35.19 232.95L-35.388 232.954-36.02 232.962-36.455 232.969-37.52 232.982-38.043 232.989-38.847 232.997-39.075 233C-39.501 233.001-39.875 232.953-40.287 232.844L-40.774 232.423C-40.862 232.227-40.916 232.054-40.952 231.843-40.982 231.589-40.992 231.344-40.993 231.088-40.993 231.042-40.993 230.996-40.993 230.948-40.994 230.796-40.995 230.645-40.995 230.493-40.995 230.387-40.995 230.28-40.995 230.174-40.995 229.951-40.996 229.728-40.995 229.506-40.995 229.222-40.997 228.938-40.998 228.654-40.999 228.434-40.999 228.215-40.999 227.995-40.999 227.891-40.999 227.786-41 227.681-41.002 227.137-40.991 226.627-40.844 226.1-40.387 225.54-39.89 225.118-39.313 224.695L-39.121 224.553-38.753 224.282-38.29 223.94C-37.883 223.637-37.476 223.336-37.052 223.057-36.863 222.929-36.678 222.796-36.494 222.662-35.489 221.938-34.455 221.258-33.4 220.612-33.152 220.456-32.909 220.293-32.667 220.128-31.999 219.675-31.316 219.254-30.617 218.852-30.446 218.748-30.283 218.64-30.118 218.527-29.745 218.274-29.354 218.055-28.961 217.836L-28.496 217.575-28.263 217.445C-27.936 217.256-28.154 217.287-27.282 216.879-25.151 215.858-23.588 215.177-23.028 215Z" fill="#FFFFFF" fill-rule="evenodd"/></g></svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold gradient-text">快捷魔方</h1>
+                    <p class="text-sm text-gray-600 font-medium">专为小语设计的智能辅助工具</p>
+                </div>
+            </div>
+            
+            <!-- 桌面导航 -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-primary font-semibold hover:text-secondary transition-all-300 relative group">
+                    首页
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all-300"></span>
+                </a>
+                <a href="#products" class="font-medium text-gray-700 hover:text-primary transition-all-300 relative group">
+                    产品介绍
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all-300"></span>
+                </a>
+                <a href="#features" class="font-medium text-gray-700 hover:text-primary transition-all-300 relative group">
+                    功能亮点
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all-300"></span>
+                </a>
+                <a href="#download" class="font-medium text-gray-700 hover:text-primary transition-all-300 relative group">
+                    下载中心
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all-300"></span>
+                </a>
+                <a href="#tutorial" class="font-medium text-gray-700 hover:text-primary transition-all-300 relative group">
+                    使用教程
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all-300"></span>
+                </a>
+                <a href="#purchase" class="bg-gradient-primary text-white font-semibold py-2 px-6 rounded-full hover:shadow-glow transition-all-300">
+                    购买咨询
+                </a>
+            </div>
+            
+            <!-- 移动端菜单按钮 -->
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-dark focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-all-300">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden glass-effect border-t border-gray-200/20">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="#home" class="py-2 text-primary font-semibold hover:text-secondary transition-all-300">首页</a>
+                <a href="#products" class="py-2 font-medium text-gray-700 hover:text-primary transition-all-300">产品介绍</a>
+                <a href="#features" class="py-2 font-medium text-gray-700 hover:text-primary transition-all-300">功能亮点</a>
+                <a href="#download" class="py-2 font-medium text-gray-700 hover:text-primary transition-all-300">下载中心</a>
+                <a href="#tutorial" class="py-2 font-medium text-gray-700 hover:text-primary transition-all-300">使用教程</a>
+                <a href="#purchase" class="py-2 font-medium text-gray-700 hover:text-primary transition-all-300">购买咨询</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="min-h-screen flex items-center bg-gradient-hero relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+            <div class="absolute top-40 right-10 w-72 h-72 bg-secondary rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-accent rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- 左侧内容 -->
+                <div class="text-center md:text-left">
+                    <div class="mb-6">
+                        <span class="inline-block bg-gradient-primary text-white px-4 py-2 rounded-full text-sm font-semibold shadow-glow animate-pulse">
+                            🚀 智能教学新时代
+                        </span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                        <span class="gradient-text text-shadow-lg">快捷魔方</span><br>
+                        <span class="text-gray-800">让语文教学</span><br>
+                        <span class="text-primary">更便捷更高效</span>
+                    </h1>
+                    
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        专为小学语文教师打造的便捷工具，包含PPT和Word两套插件，
+                        <span class="text-primary font-semibold">一键完成批量操作</span>，
+                        让您告别繁琐的工作，专注于教学本身。
+                    </p>
+                    
+                    <!-- 核心价值点 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="flex items-center space-x-3 p-3 bg-white/80 rounded-lg shadow-soft">
+                            <div class="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
+                                <i class="fa fa-clock text-white"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-gray-800">提升90%</div>
+                                <div class="text-sm text-gray-600">工作效率</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-white/80 rounded-lg shadow-soft">
+                            <div class="w-10 h-10 bg-gradient-secondary rounded-xl flex items-center justify-center">
+                                <i class="fa fa-magic text-white"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-gray-800">一键处理</div>
+                                <div class="text-sm text-gray-600">繁琐任务</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-white/80 rounded-lg shadow-soft">
+                            <div class="w-10 h-10 bg-gradient-accent rounded-xl flex items-center justify-center">
+                                <i class="fa fa-users text-white"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-gray-800">全球20个国家</div>
+                                <div class="text-sm text-gray-600">教师信赖</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 行动按钮 -->
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#download" class="bg-gradient-primary text-white font-bold py-4 px-8 rounded-full hover:shadow-glow transition-all-300 transform hover:scale-105 text-center">
+                            <i class="fa fa-download mr-2"></i>
+                            立即免费下载
+                        </a>
+                        <a href="#tutorial" class="border-2 border-primary text-primary font-bold py-4 px-8 rounded-full hover:bg-primary hover:text-white transition-all-300 text-center">
+                            <i class="fa fa-play mr-2"></i>
+                            观看演示视频
+                        </a>
+                    </div>
+                    
+                    <!-- 信任标识 -->
+                    <div class="mt-8 flex items-center justify-center md:justify-start space-x-6 text-sm text-gray-500">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa fa-shield-alt text-green-500"></i>
+                            <span>安全可靠</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fa fa-download text-blue-500"></i>
+                            <span>免费使用</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fa fa-headset text-purple-500"></i>
+                            <span>专业支持</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧图片/演示 -->
+                <div class="relative">
+                    <div class="relative z-10 bg-white rounded-2xl shadow-2xl p-8 transform rotate-3 hover:rotate-0 transition-all-300">
+                        <!-- 模拟软件界面 -->
+                        <div class="bg-gray-100 rounded-lg p-4 mb-4">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                            </div>
+                            <div class="bg-white rounded p-4">
+                                <div class="text-sm font-semibold text-gray-800 mb-2">快捷魔方 - PPT插件</div>
+                                <div class="space-y-2">
+                                    <div class="h-2 bg-gradient-primary rounded w-3/4"></div>
+                                    <div class="h-2 bg-gray-200 rounded w-1/2"></div>
+                                    <div class="h-2 bg-gradient-secondary rounded w-2/3"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="inline-flex items-center space-x-2 bg-gradient-primary text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                <i class="fa fa-magic"></i>
+                                <span>快捷「魔法」施法中...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 浮动元素 -->
+                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-accent rounded-2xl flex items-center justify-center shadow-glow animate-bounce">
+                        <i class="fa fa-star text-white text-2xl"></i>
+                    </div>
+                    <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-secondary rounded-2xl flex items-center justify-center shadow-glow animate-pulse">
+                        <i class="fa fa-heart text-white text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 滚动提示 -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div class="flex flex-col items-center text-gray-600">
+                <span class="text-sm mb-2">了解更多</span>
+                <i class="fa fa-chevron-down text-xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品介绍 -->
+    <section id="products" class="py-20 bg-gradient-light relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-10 right-10 w-64 h-64 bg-primary rounded-full mix-blend-multiply filter blur-2xl"></div>
+            <div class="absolute bottom-10 left-10 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-2xl"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="inline-block bg-gradient-primary text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    🎯 核心产品
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">双剑合璧，提效无忧</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    快捷魔方系列插件专为小学语文教师量身定制，
+                    <span class="text-primary font-semibold">PPT + Word 套件全支持</span>，
+                    让您在任何教学场景下都能游刃有余。
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                <!-- PPT插件 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 card-hover transition-all-300 border border-gray-100 hover:border-primary/20" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-gradient-primary text-white p-4 rounded-xl mr-4 shadow-glow group-hover:scale-110 transition-all-300">
+                            <i class="fa fa-file-powerpoint-o text-3xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">快捷魔方PPT插件</h3>
+                            <p class="text-primary font-semibold">课件制作神器</p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+                        专为PPT课件制作而生，集成<span class="text-primary font-semibold">100+便捷功能</span>。
+                        从汉字注音到笔顺演示，从部首描红到挖词填空，让您的课件制作效率提升10倍！
+                    </p>
+                    
+                    <!-- 核心功能亮点 -->
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg">
+                            <i class="fa fa-magic text-green-600"></i>
+                            <span class="text-sm font-medium text-green-800">一键汉字注音</span>
+                        </div>
+                        <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg">
+                            <i class="fa fa-pencil text-blue-600"></i>
+                            <span class="text-sm font-medium text-blue-800">汉字笔画拆分</span>
+                        </div>
+                        <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-purple-50 to-violet-50 rounded-lg">
+                            <i class="fa fa-play-circle text-purple-600"></i>
+                            <span class="text-sm font-medium text-purple-800">笔顺动画生成</span>
+                        </div>
+                        <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-orange-50 to-amber-50 rounded-lg">
+                            <i class="fa fa-edit text-orange-600"></i>
+                            <span class="text-sm font-medium text-orange-800">汉字部首描红</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-green-600 font-bold">98% 功能完全免费无限制</span>
+                        </div>
+                        <a href="#download" class="bg-gradient-primary text-white px-6 py-2 rounded-full hover:shadow-glow transition-all-300 transform hover:scale-105 flex items-center space-x-2">
+                            <i class="fa fa-download"></i>
+                            <span>立即下载</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Word插件 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 card-hover transition-all-300 border border-gray-100 hover:border-secondary/20" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-gradient-secondary text-white p-4 rounded-xl mr-4 shadow-glow group-hover:scale-110 transition-all-300">
+                            <i class="fa fa-file-word-o text-3xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">快捷魔方Word插件</h3>
+                            <p class="text-secondary font-semibold">出题排版神器</p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+                        专为小学语文打造的Word辅助工具，提供<span class="text-secondary font-semibold">丰富的辅助功能</span>。
+                        从拼音标注到基础题型生成，从参数调整到批量处理，让教师文档工作变得简单高效！
+                    </p>
+                    
+                    <!-- 核心功能亮点 -->
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg">
+                            <i class="fa fa-file-text text-indigo-600"></i>
+                            <span class="text-sm font-medium text-indigo-800">汉字拼音标注</span>
+                        </div>
+                        <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg">
+                            <i class="fa fa-exchange text-pink-600"></i>
+                            <span class="text-sm font-medium text-pink-800">看拼音写词语</span>
+                        </div>
+                        <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-teal-50 to-cyan-50 rounded-lg">
+                            <i class="fa fa-clipboard text-teal-600"></i>
+                            <span class="text-sm font-medium text-teal-800">看词语写拼音</span>
+                        </div>
+                        <div class="flex items-center space-x-2 p-3 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg">
+                            <i class="fa fa-graduation-cap text-yellow-600"></i>
+                            <span class="text-sm font-medium text-yellow-800">基础题型生成</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+                            <span class="text-amber-600 font-bold">80%功能需付费</span>
+                        </div>
+                        <a href="#purchase" class="bg-gradient-secondary text-white px-6 py-2 rounded-full hover:shadow-glow transition-all-300 transform hover:scale-105 flex items-center space-x-2">
+                            <i class="fa fa-crown"></i>
+                            <span>了解购买</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 系统兼容信息 -->
+            <div class="bg-white rounded-2xl shadow-soft p-8 border border-gray-100" data-aos="fade-up">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gradient-accent text-white p-3 rounded-xl mr-4">
+                        <i class="fa fa-desktop text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">系统兼容性说明</h3>
+                        <p class="text-gray-600">确保您的设备满足使用要求</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-check-circle text-green-500 mr-2"></i>
+                            支持的系统和软件
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                                <i class="fa fa-windows text-blue-600 mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-medium text-gray-800">Windows 系统</div>
+                                    <div class="text-sm text-gray-600">支持 Windows 7/8/10/11</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                                <i class="fa fa-file-powerpoint-o text-orange-600 mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-medium text-gray-800">WPS Office</div>
+                                    <div class="text-sm text-gray-600">完美兼容 WPS 办公套件</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                                <i class="fa fa-microsoft text-blue-600 mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-medium text-gray-800">Microsoft Office</div>
+                                    <div class="text-sm text-gray-600">支持 Office 2010 及以上版本</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-times-circle text-red-500 mr-2"></i>
+                            暂不支持的系统
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center p-3 bg-red-50 rounded-lg">
+                                <i class="fa fa-apple text-gray-400 mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-medium text-gray-600">Mac OS 系统</div>
+                                    <div class="text-sm text-gray-500">暂不支持苹果电脑</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-red-50 rounded-lg">
+                                <i class="fa fa-linux text-gray-400 mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-medium text-gray-600">Linux 系统</div>
+                                    <div class="text-sm text-gray-500">暂不支持 Linux 系统</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-yellow-50 rounded-lg">
+                                <i class="fa fa-mobile text-orange-500 mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-medium text-orange-700">移动设备</div>
+                                    <div class="text-sm text-orange-600">仅支持桌面版 Office</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能亮点 -->
+    <section id="features" class="py-20 bg-white relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-20 left-20 w-32 h-32 bg-accent rounded-full mix-blend-multiply filter blur-xl animate-float"></div>
+            <div class="absolute bottom-20 right-20 w-48 h-48 bg-primary rounded-full mix-blend-multiply filter blur-xl animate-float-delayed"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="inline-block bg-gradient-accent text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    ✨ 核心功能
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">六大智能功能，让教学更轻松</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    每一个功能都经过精心设计，
+                    <span class="text-primary font-semibold">专为小学语文教学场景优化</span>，
+                    让复杂的课件制作变得简单高效。
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <!-- 功能1 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 card-hover transition-all-300 border border-gray-100 hover:border-primary/30" data-aos="fade-up" data-aos-delay="100">
+                    <div class="bg-gradient-primary text-white p-4 rounded-2xl inline-block mb-6 shadow-glow group-hover:scale-110 transition-all-300">
+                        <i class="fa fa-font text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">智能汉字注音</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-4">
+                        <span class="text-primary font-semibold">一键批量注音</span>，支持批量调整格式。
+                        自动识别多音字、儿化音和复杂音变，可调节字体大小和颜色，让课件更加专业美观。
+                    </p>
+                    <div class="flex items-center text-sm text-green-600 font-medium">
+                        <i class="fa fa-check-circle mr-2"></i>
+                        <span>支持6000+常用汉字和3000多生僻字</span>
+                    </div>
+                </div>
+                
+                <!-- 功能2 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 card-hover transition-all-300 border border-gray-100 hover:border-secondary/30" data-aos="fade-up" data-aos-delay="200">
+                    <div class="bg-gradient-secondary text-white p-4 rounded-2xl inline-block mb-6 shadow-glow group-hover:scale-110 transition-all-300">
+                        <i class="fa fa-pencil text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">笔画智能拆分</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-4">
+                        <span class="text-secondary font-semibold">精准拆分汉字笔画</span>，清晰展示汉字结构。
+                        帮助学生理解汉字构成规律，掌握正确的书写方法。
+                    </p>
+                    <div class="flex items-center text-sm text-blue-600 font-medium">
+                        <i class="fa fa-check-circle mr-2"></i>
+                        <span>覆盖小学全部生字</span>
+                    </div>
+                </div>
+                
+                <!-- 功能3 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 card-hover transition-all-300 border border-gray-100 hover:border-accent/30" data-aos="fade-up" data-aos-delay="300">
+                    <div class="bg-gradient-accent text-white p-4 rounded-2xl inline-block mb-6 shadow-glow group-hover:scale-110 transition-all-300">
+                        <i class="fa fa-film text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">笔顺动画生成</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-4">
+                        <span class="text-accent font-semibold">辅助生成笔顺动画</span>，生动展示汉字书写过程。
+                        可调节播放速度，让学生轻松掌握正确笔顺。
+                    </p>
+                    <div class="flex items-center text-sm text-purple-600 font-medium">
+                        <i class="fa fa-check-circle mr-2"></i>
+                        <span>动画流畅自然</span>
+                    </div>
+                </div>
+                
+                <!-- 功能4 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 card-hover transition-all-300 border border-gray-100 hover:border-primary/30" data-aos="fade-up" data-aos-delay="400">
+                    <div class="bg-gradient-primary text-white p-4 rounded-2xl inline-block mb-6 shadow-glow group-hover:scale-110 transition-all-300">
+                        <i class="fa fa-edit text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">部首描红练习</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-4">
+                        <span class="text-primary font-semibold">智能生成描红模板</span>，提供汉字部首练习。
+                        帮助学生掌握部首写法，理解汉字构字规律。
+                    </p>
+                    <div class="flex items-center text-sm text-green-600 font-medium">
+                        <i class="fa fa-check-circle mr-2"></i>
+                        <span>214个部首全覆盖</span>
+                    </div>
+                </div>
+                
+                <!-- 功能5 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 card-hover transition-all-300 border border-gray-100 hover:border-secondary/30" data-aos="fade-up" data-aos-delay="500">
+                    <div class="bg-gradient-secondary text-white p-4 rounded-2xl inline-block mb-6 shadow-glow group-hover:scale-110 transition-all-300">
+                        <i class="fa fa-puzzle-piece text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">智能挖词填空</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-4">
+                        <span class="text-secondary font-semibold">自动生成填空题</span>，支持自定义挖空位置。
+                        一键制作练习题和测试卷，大幅提升出题效率。
+                    </p>
+                    <div class="flex items-center text-sm text-blue-600 font-medium">
+                        <i class="fa fa-check-circle mr-2"></i>
+                        <span>智能推荐挖空点</span>
+                    </div>
+                </div>
+                
+                <!-- 功能6 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 card-hover transition-all-300 border border-gray-100 hover:border-accent/30" data-aos="fade-up" data-aos-delay="600">
+                    <div class="bg-gradient-accent text-white p-4 rounded-2xl inline-block mb-6 shadow-glow group-hover:scale-110 transition-all-300">
+                        <i class="fa fa-magic text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">一键智能排版</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-4">
+                        <span class="text-accent font-semibold">自动优化文档排版</span>，调整字体、间距和格式。
+                        让您的课件瞬间变得专业美观，节省大量排版时间。
+                    </p>
+                    <div class="flex items-center text-sm text-purple-600 font-medium">
+                        <i class="fa fa-check-circle mr-2"></i>
+                        <span>10秒完成排版优化</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能演示图片 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="relative group" data-aos="fade-right">
+                    <div class="absolute -inset-4 bg-gradient-primary rounded-2xl blur opacity-25 group-hover:opacity-40 transition-all-300"></div>
+                    <div class="relative bg-white rounded-2xl p-6 shadow-soft">
+                        <img src="https://tc-cdn.flowus.cn/oss/8037775d-6b0d-4816-98d8-c4978bd71eca/image.png?time=1762097400&token=e8765b4ac6bfd5b717e0078dc17c1936bf4bd9732f4b4035590bbdca424720e4&role=sharePaid" alt="PPT插件功能演示" class="rounded-xl shadow-lg w-full h-auto">
+                        <div class="mt-4 text-center">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">PPT插件功能界面</h4>
+                            <p class="text-gray-600">直观的操作界面，所有功能一目了然</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group" data-aos="fade-left">
+                    <div class="absolute -inset-4 bg-gradient-secondary rounded-2xl blur opacity-25 group-hover:opacity-40 transition-all-300"></div>
+                    <div class="relative bg-white rounded-2xl p-6 shadow-soft">
+                        <img src="https://tc-cdn.flowus.cn/oss/5e645932-f85f-4356-8a36-24a356e790a8/image.png?time=1762097400&token=8134106d8055750e68d108189624fb719ae61846fc25ac062931c1eff0cc0e7b&role=sharePaid" alt="Word插件功能演示" class="rounded-xl shadow-lg w-full h-auto">
+                        <div class="mt-4 text-center">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">Word插件功能界面</h4>
+                            <p class="text-gray-600">小语教师专属的Word辅助插件，功能强大易用</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 下载中心 -->
+    <section id="download" class="py-20 bg-gradient-light relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-10 left-10 w-40 h-40 bg-secondary rounded-full mix-blend-multiply filter blur-2xl animate-float"></div>
+            <div class="absolute bottom-10 right-10 w-56 h-56 bg-accent rounded-full mix-blend-multiply filter blur-2xl animate-float-delayed"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="inline-block bg-gradient-secondary text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    📥 立即下载
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">开启「快捷魔法」之旅</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    下载最新版本的快捷魔方插件，
+                    <span class="text-primary font-semibold">2分钟安装，立即提升效率</span>。
+                    支持Windows系统，完美兼容WPS和Office。
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                <!-- PPT插件下载 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 border border-gray-100 hover:border-primary/30 transition-all-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-8">
+                        <div class="bg-gradient-primary text-white p-4 rounded-2xl mr-6 shadow-glow group-hover:scale-110 transition-all-300">
+                            <i class="fa fa-file-powerpoint-o text-3xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">快捷魔方PPT插件</h3>
+                            <p class="text-gray-600">支持WPS演示文稿和PowerPoint</p>
+                            <div class="flex items-center mt-2">
+                                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse mr-2"></div>
+                                <span class="text-green-600 font-bold text-sm">98% 功能完全免费无限制</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <a href="https://www.123865.com/s/kkytVv-T1W5H" target="_blank" class="group/btn flex items-center justify-between bg-gradient-primary text-white py-4 px-6 rounded-xl hover:shadow-glow transition-all-300 transform hover:scale-105">
+                            <div class="flex items-center">
+                                <i class="fa fa-download mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-bold">快捷魔方PPT.exe</div>
+                                    <div class="text-sm opacity-90">推荐下载 - 自动安装</div>
+                                </div>
+                            </div>
+                            <i class="fa fa-arrow-right group-hover/btn:translate-x-1 transition-transform"></i>
+                        </a>
+                        
+                        <a href="https://www.123865.com/s/kkytVv-D025H" target="_blank" class="group/btn flex items-center justify-between bg-gray-100 text-gray-800 py-4 px-6 rounded-xl hover:bg-gray-200 transition-all-300">
+                            <div class="flex items-center">
+                                <i class="fa fa-file-zip-o mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-bold">快捷魔方PPT插件.zip</div>
+                                    <div class="text-sm text-gray-600">压缩包 - 手动安装</div>
+                                </div>
+                            </div>
+                            <i class="fa fa-arrow-right group-hover/btn:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4">
+                        <div class="flex items-start">
+                            <i class="fa fa-gift text-green-600 mr-3 mt-1 text-lg"></i>
+                            <div>
+                                <div class="font-semibold text-green-800 mb-1">免费版本优势</div>
+                                <p class="text-sm text-green-700 leading-relaxed">
+                                    汉字注音、笔画拆分、笔顺动画等核心功能完全免费，
+                                    无使用次数限制，满足日常教学需求。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Word插件下载 -->
+                <div class="group bg-white rounded-2xl shadow-soft p-8 border border-gray-100 hover:border-secondary/30 transition-all-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-8">
+                        <div class="bg-gradient-secondary text-white p-4 rounded-2xl mr-6 shadow-glow group-hover:scale-110 transition-all-300">
+                            <i class="fa fa-file-word-o text-3xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">快捷魔方Word插件</h3>
+                            <p class="text-gray-600">支持WPS文字和Word</p>
+                            <div class="flex items-center mt-2">
+                                <div class="w-3 h-3 bg-amber-500 rounded-full animate-pulse mr-2"></div>
+                                <span class="text-amber-600 font-bold text-sm">高级功能需付费</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <a href="https://www.123865.com/s/kkytVv-ymW5H" target="_blank" class="group/btn flex items-center justify-between bg-gradient-secondary text-white py-4 px-6 rounded-xl hover:shadow-glow transition-all-300 transform hover:scale-105">
+                            <div class="flex items-center">
+                                <i class="fa fa-download mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-bold">快捷魔方Word.exe</div>
+                                    <div class="text-sm opacity-90">推荐下载 - 自动安装</div>
+                                </div>
+                            </div>
+                            <i class="fa fa-arrow-right group-hover/btn:translate-x-1 transition-transform"></i>
+                        </a>
+                        
+                        <a href="https://www.123865.com/s/kkytVv-r025H" target="_blank" class="group/btn flex items-center justify-between bg-gray-100 text-gray-800 py-4 px-6 rounded-xl hover:bg-gray-200 transition-all-300">
+                            <div class="flex items-center">
+                                <i class="fa fa-file-zip-o mr-3 text-xl"></i>
+                                <div>
+                                    <div class="font-bold">快捷魔方Word插件.zip</div>
+                                    <div class="text-sm text-gray-600">压缩包 - 手动安装</div>
+                                </div>
+                            </div>
+                            <i class="fa fa-arrow-right group-hover/btn:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4">
+                        <div class="flex items-start">
+                            <i class="fa fa-crown text-amber-600 mr-3 mt-1 text-lg"></i>
+                            <div>
+                                <div class="font-semibold text-amber-800 mb-1">会员专享</div>
+                                <p class="text-sm text-amber-700 leading-relaxed">
+                                    提供汉字拼音标注，看拼音写词语、
+                                    看词语写拼音、组词填空、字音判断等基础题型生成。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 下载注意事项 -->
+            <div class="bg-white rounded-2xl shadow-soft p-8 border border-gray-100" data-aos="fade-up">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gradient-accent text-white p-3 rounded-xl mr-4">
+                        <i class="fa fa-info-circle text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">安装注意事项</h3>
+                        <p class="text-gray-600">确保顺利安装，避免常见问题</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="flex items-start p-4 bg-blue-50 rounded-xl">
+                        <div class="bg-blue-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                            <i class="fa fa-shield text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-blue-800 mb-2">安全防护提醒</h4>
+                            <p class="text-sm text-blue-700 leading-relaxed">
+                                如遇SmartScreen拦截，请点击"更多信息"→"仍要运行"，
+                                或在下载项右侧点击"保留"。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start p-4 bg-green-50 rounded-xl">
+                        <div class="bg-green-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                            <i class="fa fa-globe text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-green-800 mb-2">浏览器下载</h4>
+                            <p class="text-sm text-green-700 leading-relaxed">
+                                微信内置浏览器可能拦截下载，
+                                建议复制链接到Chrome、Edge等浏览器中下载。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start p-4 bg-purple-50 rounded-xl">
+                        <div class="bg-purple-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                            <i class="fa fa-font text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-purple-800 mb-2">字体安装</h4>
+                            <p class="text-sm text-purple-700 leading-relaxed">
+                                如字体安装失败，请手动进入安装目录的Fonts文件夹，
+                                安装所有字体后重启金山WPS或者Microsoft office"。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 使用教程 -->
+    <section id="tutorial" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">使用教程</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    详细的安装和使用教程，帮助您快速上手快捷魔方插件。
+                </p>
+            </div>
+            
+            <!-- 步骤导航 -->
+            <div class="flex flex-wrap justify-center mb-8" data-aos="fade-up">
+                <button class="tutorial-tab active px-4 py-2 mx-2 mb-4 rounded-lg bg-primary text-white" data-tab="install">
+                    安装步骤
+                </button>
+                <button class="tutorial-tab px-4 py-2 mx-2 mb-4 rounded-lg bg-gray-200 text-gray-700" data-tab="update">
+                    更新插件
+                </button>
+                <button class="tutorial-tab px-4 py-2 mx-2 mb-4 rounded-lg bg-gray-200 text-gray-700" data-tab="uninstall">
+                    卸载插件
+                </button>
+            </div>
+            
+            <!-- 安装步骤 -->
+            <div id="install-tab" class="tutorial-content active">
+                <div class="bg-white rounded-xl shadow-custom p-6" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-6">安装步骤</h3>
+                    
+                    <div class="space-y-8">
+                        <!-- 步骤1 -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-primary text-white font-bold mr-4">
+                                1
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-medium mb-2">安装必要字体</h4>
+                                <p class="text-gray-600 mb-4">
+                                    下载并安装拆分笔画所需字体包，确保插件能正常拆分笔画。
+                                </p>
+                                <a href="https://www.123865.com/s/kkytVv-PR25H" target="_blank" class="inline-flex items-center text-primary hover:underline">
+                                    <i class="fa fa-download mr-1"></i> 下载字体包
+                                </a>
+                                <p class="text-gray-500 text-sm mt-2">
+                                    安装提示：下载后解压字体包，双击打开字体文件，点击左上角"安装"按钮安装，按钮变灰色表示安装已完成。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 步骤2 -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-primary text-white font-bold mr-4">
+                                2
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-medium mb-2">安装运行环境（如需要）</h4>
+                                <p class="text-gray-600 mb-4">
+                                    如果系统是Win7，建议安装VSTO运行环境和.NET Framework 4.7.2。
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <a href="https://www.123865.com/s/kkytVv-RW25H" target="_blank" class="inline-flex items-center text-secondary hover:underline">
+                                        <i class="fa fa-download mr-1"></i> Visual Studio Tools for Office Runtime
+                                    </a>
+                                    <a href="https://www.123865.com/s/kkytVv-DW25H" target="_blank" class="inline-flex items-center text-secondary hover:underline">
+                                        <i class="fa fa-download mr-1"></i> .NET Framework 4.7.2
+                                    </a>
+                                </div>
+                                <p class="text-gray-500 text-sm">
+                                    此步骤非必需，但如果您的系统非常老旧（如Win7），请优先考虑安装这两个运行环境。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 步骤3 -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-primary text-white font-bold mr-4">
+                                3
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-medium mb-2">打开安装包安装插件</h4>
+                                <p class="text-gray-600 mb-4">
+                                    打开"快捷魔方PPT.exe"或"快捷魔方Word.exe"安装包安装所需插件（建议鼠标右键以管理员身份运行安装包）。
+                                </p>
+                                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <i class="fa fa-info-circle text-yellow-400"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm text-yellow-700">
+                                                安装完成后，打开对应的办公套件使用：
+                                                <br>1. 安装PPT插件：打开PowerPoint或WPS演示文稿
+                                                <br>2. 安装Word插件：打开Word或WPS文字
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600">
+                                    安装完成后，打开对应办公套件，会弹出询问"是否安装此自定义项"，点"安装"即可。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- WPS启用插件说明 -->
+                <div class="mt-8 bg-white rounded-xl shadow-custom p-6" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-xl font-bold mb-4">WPS启用插件</h3>
+                    <p class="text-gray-600 mb-6">
+                        WPS默认禁用第三方插件，需要手动启用。请按照以下步骤操作：
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-medium mb-2">1. 进入WPS文字和WPS演示文稿，点击左上角"文件"选项卡，往下找到并点击"选项"</h4>
+                            <img src="https://tc-cdn.flowus.cn/oss/fe6fb7a3-df3c-460b-8014-23fcc3013842/61e738840a104984ba8580da106f0ea2.webp?time=1762096500&token=c4b42c6b6189f916f9c91c20711e064bbf15f9547aac6d0687b8466422e80cac&role=sharePaid" alt="WPS选项" class="rounded-lg shadow-md w-full h-auto mt-2">
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium mb-2">2. 左侧顺下找到并点击"信任中心"，勾选"启用所有第三方COM加载项，重启WPS生效"，确定</h4>
+                            <img src="https://tc-cdn.flowus.cn/oss/2f03b1d5-bc1c-4f6f-8d0e-9291aa654dd5/c1580188713c4abd89bafa229844d8ee.webp?time=1762096500&token=49b454a20429d75c849cbe88d6f9f38df3293c46dee5c2a15d281b281ac89342&role=sharePaid" alt="WPS信任中心" class="rounded-lg shadow-md w-full h-auto mt-2">
+                        </div>
+                        
+                        <p class="text-gray-500 text-sm">
+                            截图仅以WPS文字为例，WPS演示文稿启用插件过程操作相同，不再赘述。
+                            完成上述启用插件操作，关闭WPS，即可进入正式安装。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 更新插件 -->
+            <div id="update-tab" class="tutorial-content hidden">
+                <div class="bg-white rounded-xl shadow-custom p-6" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-6">更新插件</h3>
+                    
+                    <p class="text-gray-600 mb-6">
+                        打开"快捷魔方"功能区选项卡，找到并点击"检查更新"。如有新版本点击"立即更新"。
+                    </p>
+                    
+                    <img src="https://tc-cdn.flowus.cn/oss/e4e20a31-871f-4704-86a1-e7ff991b4350/image.png?time=1762099200&token=c35a91001511bb13d4e6783a7c9b3cc4276d2022a44f458eb0fb190bf9740612&role=sharePaid" alt="检查更新" class="rounded-lg shadow-md w-full h-auto mb-8">
+                    
+                    <h4 class="text-lg font-medium mb-4">方法一：更新完成后，重启办公套件</h4>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fa fa-check-circle text-green-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-gray-700">
+                                    如果你是WPS用户，则关闭WPS，重新打开WPS（WPS演示文稿或WPS文字）。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0 mt-1">
+                                <i class="fa fa-check-circle text-green-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-gray-700">
+                                    如果你是Office用户，则关闭Office，重新打开Office（PowerPoint或Word）。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-lg font-medium mb-4">方法二：更新完成后，通过COM加载项重启插件</h4>
+                    <p class="text-gray-600 mb-4">
+                        基本市面上基于VSTO框架的插件的总开关都在COM加载项。因此，我们可以在不关闭或退出WPS和Office的情况下，也可以完成插件的重新加载。
+                    </p>
+                    
+                    <!-- WPS用户 -->
+                    <div class="mb-8">
+                        <h5 class="font-medium mb-2">如果你是WPS用户：</h5>
+                        <p class="text-gray-600 mb-4">
+                            打开"工具"功能区选项卡，找到并点击"COM加载项"。
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <p class="font-medium">1. 先行禁用插件：取消勾选插件，点击确定。此时插件的功能区选项卡从功能区消失，即禁用插件。</p>
+                                <img src="https://tc-cdn.flowus.cn/oss/85e5bc1c-6ccc-4e09-a296-3d6f580bc0b4/67e78031f2ce4e7b859ea1fafee3a50e.webp?time=1762096500&token=2b815e1c6c10247638d23bb47aaaa140672f876c11120f9e9c65b28d7e991ebe&role=sharePaid" alt="禁用插件" class="rounded-lg shadow-md w-full h-auto mt-2">
+                            </div>
+                            
+                            <div>
+                                <p class="font-medium">2. 再行启用插件：禁用插件后，再次打开COM加载项，勾选插件，确定。此时插件重新出现在功能区上，即启用插件。</p>
+                                <img src="https://tc-cdn.flowus.cn/oss/57fb4dbe-b192-45ce-826c-354ac44bacc9/e9bc8b611da5405da740ef7f0d4d4705.webp?time=1762096500&token=3215bfdaf6b98d03c702a50aae208211738e8eaf8c9d19b7966e15842a0dc151&role=sharePaid" alt="启用插件" class="rounded-lg shadow-md w-full h-auto mt-2">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Office用户 -->
+                    <div>
+                        <h5 class="font-medium mb-2">如果你是微软用户(MicroSoft Office用户)：</h5>
+                        <p class="text-gray-600 mb-4">
+                            为方便管理插件，微软用户可在"功能区"先行启用"开发工具"选项卡。
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <p class="font-medium">1. 右键功能区空白处，选择"自定义功能区"。</p>
+                                <img src="https://tc-cdn.flowus.cn/oss/025f4af5-fe71-4952-ae26-1ec892bc74b0/d6aaa634babd495f90bdb9320094bdfe.webp?time=1762096500&token=972c72acc363fc34d65f46b8dd095032763623442f568a48a9d93c3472c90ebc&role=sharePaid" alt="自定义功能区" class="rounded-lg shadow-md w-full h-auto mt-2">
+                            </div>
+                            
+                            <div>
+                                <p class="font-medium">2. 勾选"开发工具"，确定。</p>
+                                <img src="https://tc-cdn.flowus.cn/oss/38a67f35-60ee-4901-a2b9-e3663ec51e17/8251161db7114b7e8fc0603b85d0d3c8.webp?time=1762096500&token=43928abbff4acfea36df4b5e336e6c167a50cffa29487a98c06e0b87f82cce9e&role=sharePaid" alt="启用开发工具" class="rounded-lg shadow-md w-full h-auto mt-2">
+                            </div>
+                            
+                            <div>
+                                <p class="font-medium">3. 打开"开发工具"功能区选项卡，找到并点击"COM加载项"，然后按照WPS用户的方法禁用再启用插件。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 卸载插件 -->
+            <div id="uninstall-tab" class="tutorial-content hidden">
+                <div class="bg-white rounded-xl shadow-custom p-6" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-6">卸载插件</h3>
+                    
+                    <div class="space-y-8">
+                        <!-- 方法一 -->
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">方法一：通过"已安装应用列表"卸载</h4>
+                            <p class="text-gray-600 mb-4">
+                                与普通软件卸载一样，我们打开Windows菜单，打开系统设置，点击侧边"应用"，
+                                打开"已安装应用列表"，搜索关键词"快捷"，右键或者鼠标移动到"•••"展开点击卸载。
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <img src="https://ima-notebook-prod.image.myqcloud.com/2/IqkNEe4ogj4jN1V1ON6P2D/7144240e59834b2bb11c23db82686da6.webp?q-sign-algorithm=sha1&amp;q-ak=AKID9IDtLZZKqGRO7hVFnMn0zjXTXovoTtAN&amp;q-sign-time=1753453173;1753481973&amp;q-key-time=1753453173;1753481973&amp;q-header-list=&amp;q-url-param-list=&amp;q-signature=8bff2ed787b9f97e51daea12bb25b95594d0aa98" alt="已安装应用列表" class="rounded-lg shadow-md w-full h-auto">
+                                <img src="https://ima-notebook-prod.image.myqcloud.com/2/IqkNEe4ogj4jN1V1ON6P2D/14f72b55079441959748a1778a66331b.webp?q-sign-algorithm=sha1&amp;q-ak=AKID9IDtLZZKqGRO7hVFnMn0zjXTXovoTtAN&amp;q-sign-time=1753453173;1753481973&amp;q-key-time=1753453173;1753481973&amp;q-header-list=&amp;q-url-param-list=&amp;q-signature=e85c7e78f1025c3715d2fea9fa0d4508c92ae2ec" alt="卸载选项" class="rounded-lg shadow-md w-full h-auto">
+                            </div>
+                        </div>
+                        
+                        <!-- 方法二 -->
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">方法二：通过插件安装目录下的安装器程序卸载</h4>
+                            <p class="text-gray-600 mb-4">
+                                在安装目录文件夹找到并打开此安装器，点击卸载。
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <img src="https://ima-notebook-prod.image.myqcloud.com/2/IqkNEe4ogj4jN1V1ON6P2D/2d09f26d47de4284b9c1c26ebb826c37.webp?q-sign-algorithm=sha1&amp;q-ak=AKID9IDtLZZKqGRO7hVFnMn0zjXTXovoTtAN&amp;q-sign-time=1753453173;1753481973&amp;q-key-time=1753453173;1753481973&amp;q-header-list=&amp;q-url-param-list=&amp;q-signature=901a8e9292ad94f953ee293717caf4b6a0025548" alt="安装目录" class="rounded-lg shadow-md w-full h-auto">
+                                <img src="https://ima-notebook-prod.image.myqcloud.com/2/IqkNEe4ogj4jN1V1ON6P2D/b639a0ccad3d4e8aaffbaccd4b09691b.webp?q-sign-algorithm=sha1&amp;q-ak=AKID9IDtLZZKqGRO7hVFnMn0zjXTXovoTtAN&amp;q-sign-time=1753453173;1753481973&amp;q-key-time=1753453173;1753481973&amp;q-header-list=&amp;q-url-param-list=&amp;q-signature=43cc7ea40fe469ed2abb10b06d7f189606e53a41" alt="卸载程序" class="rounded-lg shadow-md w-full h-auto">
+                            </div>
+                        </div>
+                        
+                        <!-- 方法三 -->
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">方法三：通过控制面板卸载</h4>
+                            <p class="text-gray-600 mb-4">
+                                打开控制面板，找到"程序和功能"，在应用列表找到"快捷魔方"，鼠标右键卸载。
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <img src="https://ima-notebook-prod.image.myqcloud.com/2/IqkNEe4ogj4jN1V1ON6P2D/43eab566ad944e239c18ec4c8954a83c.webp?q-sign-algorithm=sha1&amp;q-ak=AKID9IDtLZZKqGRO7hVFnMn0zjXTXovoTtAN&amp;q-sign-time=1753453173;1753481973&amp;q-key-time=1753453173;1753481973&amp;q-header-list=&amp;q-url-param-list=&amp;q-signature=9c1941b21f245a323a8b8f82bd397d1f98165088" alt="控制面板" class="rounded-lg shadow-md w-full h-auto">
+                                <img src="https://ima-notebook-prod.image.myqcloud.com/2/IqkNEe4ogj4jN1V1ON6P2D/fb6f5faf33ad488cb80db7c2c0ca28c3.webp?q-sign-algorithm=sha1&amp;q-ak=AKID9IDtLZZKqGRO7hVFnMn0zjXTXovoTtAN&amp;q-sign-time=1753453173;1753481973&amp;q-key-time=1753453173;1753481973&amp;q-header-list=&amp;q-url-param-list=&amp;q-signature=e3536bd7aabc07bc74ecf6dcd19b6876eb4600d6" alt="程序和功能" class="rounded-lg shadow-md w-full h-auto">
+                                <img src="https://ima-notebook-prod.image.myqcloud.com/2/IqkNEe4ogj4jN1V1ON6P2D/8245d660f33943a98f3115ed7f4c1267.webp?q-sign-algorithm=sha1&amp;q-ak=AKID9IDtLZZKqGRO7hVFnMn0zjXTXovoTtAN&amp;q-sign-time=1753453173;1753481973&amp;q-key-time=1753453173;1753481973&amp;q-header-list=&amp;q-url-param-list=&amp;q-signature=bde9e4c9e285aa0416e0ad680de273a22785c73f" alt="卸载选项" class="rounded-lg shadow-md w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 购买咨询 -->
+    <section id="purchase" class="py-20 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-20 left-20 w-64 h-64 bg-primary rounded-full mix-blend-multiply filter blur-3xl animate-float"></div>
+            <div class="absolute bottom-20 right-20 w-80 h-80 bg-secondary rounded-full mix-blend-multiply filter blur-3xl animate-float-delayed"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="inline-block bg-gradient-primary text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    💰 限时优惠
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">开启专业版功能</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    解锁全部高级功能，享受
+                    <span class="text-primary font-semibold">终身免费更新</span>
+                    和优先技术支持
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                <!-- 价格信息 -->
+                <div class="group bg-white rounded-3xl shadow-soft p-8 border border-gray-100 hover:border-primary/30 transition-all-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold mb-4 animate-pulse">
+                            <i class="fa fa-fire mr-2"></i>
+                            官方定价 - 2025年8月1日起
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">快捷魔方终身会员</h3>
+                        
+                        <div class="flex items-end justify-center mb-6">
+                            <div class="text-6xl font-bold gradient-text mr-4">￥69.9</div>
+                            <div class="text-2xl text-gray-400 line-through mb-2">￥129.9</div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4 mb-6">
+                            <div class="flex items-center justify-center">
+                                <i class="fa fa-clock-o text-amber-600 mr-2"></i>
+                                <span class="text-amber-800 font-semibold text-sm">
+                                    优惠活动：暂无（可关注公众号“Andy超棒”）。
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center p-4 bg-green-50 rounded-xl">
+                            <div class="bg-green-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                <i class="fa fa-infinity text-lg"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-green-800">终身使用权限</div>
+                                <div class="text-sm text-green-700">一次购买，永久使用所有功能</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-blue-50 rounded-xl">
+                            <div class="bg-blue-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                <i class="fa fa-refresh text-lg"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-blue-800">免费更新升级</div>
+                                <div class="text-sm text-blue-700">持续获得新功能和优化</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-purple-50 rounded-xl">
+                            <div class="bg-purple-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                <i class="fa fa-headphones text-lg"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-purple-800">优先技术支持</div>
+                                <div class="text-sm text-purple-700">专属客服，快速解决问题</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-orange-50 rounded-xl">
+                            <div class="bg-orange-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                <i class="fa fa-users text-lg"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-orange-800">专属用户群</div>
+                                <div class="text-sm text-orange-700">与众多一线教师交流经验</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-xl p-6">
+                        <div class="flex items-start">
+                            <i class="fa fa-lightbulb-o text-yellow-600 mr-3 mt-1 text-xl"></i>
+                            <div>
+                                <div class="font-bold text-yellow-800 mb-2">功能对比说明</div>
+                                <div class="space-y-2 text-sm text-yellow-700">
+                                    <div class="flex items-center">
+                                        <i class="fa fa-check-circle text-green-500 mr-2"></i>
+                                        <span><strong>PPT插件：</strong>98% 功能完全免费无限制</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fa fa-crown text-amber-500 mr-2"></i>
+                                        <span><strong>Word插件：</strong>80% 功能仅对会员用户开放</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 购买方式 -->
+                <div class="group bg-white rounded-3xl shadow-soft p-8 border border-gray-100 hover:border-secondary/30 transition-all-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-center mb-8">
+                        <div class="bg-gradient-secondary text-white p-4 rounded-2xl w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                            <i class="fa fa-shopping-cart text-2xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-2">购买方式</h3>
+                        <p class="text-gray-600">选择最适合您的购买渠道</p>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <!-- 微信购买 -->
+                        <div class="group/item bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 hover:border-green-300 transition-all-300">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-green-500 text-white p-3 rounded-xl mr-4 group-hover/item:scale-110 transition-transform">
+                                    <i class="fa fa-wechat text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-green-800">微信直接购买</h4>
+                                    <p class="text-green-600">推荐方式 - 即买即用</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl p-4 mb-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="font-bold text-gray-800">Andy老师微信</div>
+                                        <div class="text-2xl font-bold text-green-600 font-mono">LJQANDY6</div>
+                                        <div class="text-sm text-gray-500">（非诚勿扰，仅限购买咨询）</div>
+                                    </div>
+                                    <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                                        在线客服
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center text-sm text-green-700">
+                                <i class="fa fa-check-circle mr-2"></i>
+                                <span>支付后立即获得授权码，即可成为终身会员</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 公众号关注 -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-blue-500 text-white p-3 rounded-xl mr-4">
+                                    <i class="fa fa-qrcode text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-blue-800">关注公众号</h4>
+                                    <p class="text-blue-600">获取更多教学资源</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col items-center bg-white rounded-xl p-6">
+                                <img src="https://tc-cdn.flowus.cn/oss/a996f374-9e7c-4db5-8160-36c7ca28d1ce/qrcode_for_gh_35b656c9b18b_344.jpg?time=1762096500&token=b7f4b1f36c1e9d0a22e1e4f5661d5f9f7c7beb6a461a69add337ca9605dc4cae&role=sharePaid" alt="微信公众号二维码" class="w-32 h-32 mb-3 rounded-xl shadow-sm">
+                                <div class="text-center">
+                                    <div class="font-bold text-gray-800">微信公众号：Andy超棒</div>
+                                    <div class="text-sm text-gray-500">（微信视频号同名）</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center text-sm text-blue-700">
+                                    <i class="fa fa-gift mr-2"></i>
+                                    <span>不定期推出限时优惠活动</span>
+                                </div>
+                                <div class="flex items-center text-sm text-blue-700">
+                                    <i class="fa fa-book mr-2"></i>
+                                    <span>获取独家教学干货和模板</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 购买保障 -->
+                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-4">
+                            <div class="flex items-center mb-3">
+                                <i class="fa fa-shield text-purple-600 mr-2 text-lg"></i>
+                                <span class="font-semibold text-purple-800">购买保障</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-sm text-purple-700">
+                                <div class="flex items-center">
+                                    <i class="fa fa-check text-purple-500 mr-1"></i>
+                                    <span>7天无理由退款</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fa fa-check text-purple-500 mr-1"></i>
+                                    <span>正版软件保证</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fa fa-check text-purple-500 mr-1"></i>
+                                    <span>终身免费更新</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fa fa-check text-purple-500 mr-1"></i>
+                                    <span>专业技术支持</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 用户评价 -->
+            <div class="mt-20" data-aos="fade-up">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold mb-4 gradient-text">用户真实评价</h3>
+                    <p class="text-gray-600">来自一线教师用户的真实反馈</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-2xl shadow-soft p-6 border border-gray-100">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-gradient-primary text-white p-2 rounded-full mr-3">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">张老师</div>
+                                <div class="text-sm text-gray-500">小学语文教师</div>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                        </div>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            "用了快捷魔方后，制作课件的效率提升了90%！
+                            汉字注音和笔顺动画功能特别实用。"
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl shadow-soft p-6 border border-gray-100">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-gradient-secondary text-white p-2 rounded-full mr-3">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">李老师</div>
+                                <div class="text-sm text-gray-500">教学主任</div>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                        </div>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            "我给身边的老师都推荐了快捷魔方，老师们反馈非常好。
+                            这个工具的简直是小学语文老师福音。"
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl shadow-soft p-6 border border-gray-100">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-gradient-accent text-white p-2 rounded-full mr-3">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold">王老师</div>
+                                <div class="text-sm text-gray-500">汉语老师</div>
+                            </div>
+                        </div>
+                        <div class="flex mb-3">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                        </div>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            "69.9元的价格太值了！以前制作一个课件要2小时，
+                            现在大大提升了我制作课件的效率，而且效果更专业。"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-10 left-10 w-40 h-40 bg-primary rounded-full mix-blend-multiply filter blur-2xl animate-float"></div>
+            <div class="absolute bottom-10 right-10 w-60 h-60 bg-secondary rounded-full mix-blend-multiply filter blur-2xl animate-float-delayed"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="inline-block bg-gradient-accent text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    ❓ 疑问解答
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">常见问题</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    快速找到您需要的答案，让使用过程更加顺畅
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="space-y-6">
+                    <!-- 问题1 -->
+                    <div class="group bg-white rounded-2xl shadow-soft overflow-hidden border border-gray-100 hover:border-primary/30 transition-all-300" data-aos="fade-up" data-aos-delay="100">
+                        <button class="faq-question w-full flex justify-between items-center p-6 text-left font-semibold text-lg hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <div class="bg-gradient-primary text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                    <i class="fa fa-desktop text-lg"></i>
+                                </div>
+                                <span>插件支持哪些操作系统？</span>
+                            </div>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform group-hover:text-primary"></i>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-6">
+                            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border-l-4 border-blue-400">
+                                <p class="text-gray-700 leading-relaxed">
+                                    插件<span class="font-semibold text-blue-700">仅支持Windows系统</span>，不支持Mac或其他系统。
+                                    同时支持<span class="font-semibold text-green-700">WPS和Microsoft Office</span>，
+                                    安装后可在两个办公套件中使用。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 问题2 -->
+                    <div class="group bg-white rounded-2xl shadow-soft overflow-hidden border border-gray-100 hover:border-secondary/30 transition-all-300" data-aos="fade-up" data-aos-delay="200">
+                        <button class="faq-question w-full flex justify-between items-center p-6 text-left font-semibold text-lg hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <div class="bg-gradient-secondary text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                    <i class="fa fa-exclamation-triangle text-lg"></i>
+                                </div>
+                                <span>为什么安装后插件不显示？</span>
+                            </div>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform group-hover:text-secondary"></i>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-6">
+                            <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 border-l-4 border-amber-400">
+                                <p class="text-gray-700 leading-relaxed mb-4">
+                                    可能是因为WPS默认禁用第三方插件，需要手动启用。
+                                </p>
+                                <div class="space-y-3">
+                                    <div class="flex items-start">
+                                        <div class="bg-amber-500 text-white rounded-lg w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5 flex-shrink-0">1</div>
+                                        <p class="text-gray-700">进入WPS的"文件"选项卡，找到"选项"</p>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-amber-500 text-white rounded-lg w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5 flex-shrink-0">2</div>
+                                        <p class="text-gray-700">在"信任中心"中勾选"启用所有第三方COM加载项，重启WPS生效"</p>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-amber-500 text-white rounded-lg w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5 flex-shrink-0">3</div>
+                                        <p class="text-gray-700">如问题仍存在，请以管理员身份运行安装包，或检查运行环境</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 问题3 -->
+                    <div class="group bg-white rounded-2xl shadow-soft overflow-hidden border border-gray-100 hover:border-accent/30 transition-all-300" data-aos="fade-up" data-aos-delay="300">
+                        <button class="faq-question w-full flex justify-between items-center p-6 text-left font-semibold text-lg hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <div class="bg-gradient-accent text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                    <i class="fa fa-shield text-lg"></i>
+                                </div>
+                                <span>为什么下载时被浏览器拦截？</span>
+                            </div>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform group-hover:text-accent"></i>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-6">
+                            <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-xl p-4 border-l-4 border-red-400">
+                                <p class="text-gray-700 leading-relaxed mb-4">
+                                    由于软件没有购买签名，可能会被系统的Microsoft SmartScreen Defender拦截。
+                                </p>
+                                <div class="space-y-3">
+                                    <div class="flex items-start">
+                                        <i class="fa fa-mouse-pointer text-red-500 mr-3 mt-1"></i>
+                                        <p class="text-gray-700">将鼠标移动到被拦截的下载项右侧"•••"，展开点击"保留"</p>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <i class="fa fa-info-circle text-red-500 mr-3 mt-1"></i>
+                                        <p class="text-gray-700">如继续拦截，展开"详细信息"点击"仍然保留"</p>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <i class="fa fa-chrome text-red-500 mr-3 mt-1"></i>
+                                        <p class="text-gray-700">如果是微信网页打开，建议在浏览器打开链接下载</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 问题4 -->
+                    <div class="group bg-white rounded-2xl shadow-soft overflow-hidden border border-gray-100 hover:border-green-300 transition-all-300" data-aos="fade-up" data-aos-delay="400">
+                        <button class="faq-question w-full flex justify-between items-center p-6 text-left font-semibold text-lg hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <div class="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                    <i class="fa fa-refresh text-lg"></i>
+                                </div>
+                                <span>如何更新插件到最新版本？</span>
+                            </div>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform group-hover:text-green-500"></i>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-6">
+                            <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border-l-4 border-green-400">
+                                <div class="space-y-3">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white rounded-lg w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5 flex-shrink-0">1</div>
+                                        <p class="text-gray-700">打开"快捷魔方"功能区选项卡，找到并点击"检查更新"</p>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-green-500 text-white rounded-lg w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5 flex-shrink-0">2</div>
+                                        <p class="text-gray-700">如有新版本点击"立即更新"，更新完成后重启办公套件</p>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <i class="fa fa-lightbulb-o text-green-500 mr-3 mt-1"></i>
+                                        <p class="text-gray-700"><span class="font-semibold">小贴士：</span>不想重启可通过COM加载项先禁用再启用插件</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 问题5 -->
+                    <div class="group bg-white rounded-2xl shadow-soft overflow-hidden border border-gray-100 hover:border-purple-300 transition-all-300" data-aos="fade-up" data-aos-delay="500">
+                        <button class="faq-question w-full flex justify-between items-center p-6 text-left font-semibold text-lg hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                    <i class="fa fa-key text-lg"></i>
+                                </div>
+                                <span>购买后如何成为终身会员？</span>
+                            </div>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform group-hover:text-purple-500"></i>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-6">
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border-l-4 border-purple-400">
+                                <div class="space-y-4">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        添加Andy个人微信（<span class="font-bold text-purple-700 font-mono">LJQANDY6</span>）购买后，会收到激活码。
+                                    </p>
+                                    <div class="bg-white rounded-lg p-4 border border-purple-200">
+                                        <div class="flex items-center mb-2">
+                                            <i class="fa fa-cog text-purple-500 mr-2"></i>
+                                            <span class="font-semibold text-purple-800">开通步骤：</span>
+                                        </div>
+                                        <ol class="list-decimal list-inside space-y-1 text-gray-700 ml-6">
+                                            <li>展开快捷魔方选项卡，打开会员中心</li>
+                                            <li>输入收到的终身会员授权码/兑换码</li>
+                                            <li>点击注册和激活即可成为终身会员</li>
+                                        </ol>
+                                    </div>
+                                    <div class="flex items-center text-sm text-purple-700">
+                                        <i class="fa fa-info-circle mr-2"></i>
+                                        <span>如果没有收到授权码或兑换码，请检查微信消息，或联系Andy老师咨询</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+               <!-- 联系支持 -->
+<div class="mt-16 text-center" data-aos="fade-up">
+    <div class="bg-white rounded-3xl shadow-soft p-8 border border-gray-100 max-w-2xl mx-auto">
+        <!-- 图标区域 -->
+        <div class="bg-gradient-primary text-white p-4 rounded-2xl w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+            <i class="fa fa-headphones text-2xl"></i>
+        </div>
+
+        <!-- 标题区域 -->
+        <h3 class="text-2xl font-bold mb-4 gradient-text">还有其他问题？</h3>
+
+        <!-- 说明文本区域（修复原代码p标签闭合问题） -->
+        <div class="text-gray-600 mb-6 leading-relaxed">
+            <p>
+                开发运营、客服仅Andy老师一人，
+                <span class="text-primary font-semibold">如需添加Andy微信请备注来意。</span>
+            </p>
+            <p>
+                <span class="text-primary font-semibold">Andy会尽可能及时回复消息</span>
+            </p>
+        </div>
+
+        <!-- 操作按钮区域 -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#" class="bg-gradient-primary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all-300 flex items-center justify-center">
+                <i class="fa fa-wechat mr-2"></i>
+                微信咨询
+            </a>
+            <a href="#" class="bg-white border-2 border-primary text-primary px-6 py-3 rounded-xl font-semibold hover:bg-primary hover:text-white transition-all-300 flex items-center justify-center">
+                <i class="fa fa-envelope mr-2"></i>
+                邮件支持
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</section>
+                
+                <div class="mt-8 text-center" data-aos="fade-up">
+                    <p class="text-gray-600 mb-4">还有其他问题？</p>
+                    <a href="#purchase" class="inline-flex items-center text-primary hover:underline">
+                        <i class="fa fa-wechat mr-1"></i> 联系Andy老师
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- 关于我们 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">关于我们</h3>
+                    <p class="text-gray-400">
+                        快捷魔方系列插件由Andy老师开发，专为小学语文教师打造，
+                        提供高效的教学辅助工具。
+                    </p>
+                </div>
+                
+                <!-- 快速链接 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-all-300">首页</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition-all-300">产品介绍</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-all-300">功能亮点</a></li>
+                        <li><a href="#download" class="text-gray-400 hover:text-white transition-all-300">下载中心</a></li>
+                        <li><a href="#tutorial" class="text-gray-400 hover:text-white transition-all-300">使用教程</a></li>
+                        <li><a href="#purchase" class="text-gray-400 hover:text-white transition-all-300">购买咨询</a></li>
+                    </ul>
+                </div>
+                
+                <!-- 联系方式 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">联系方式</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fa fa-wechat mr-2 text-green-400"></i>
+                            <span class="text-gray-400">LJQANDY6</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-envelope mr-2 text-blue-400"></i>
+                            <span class="text-gray-400">qmagicbox@163.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 关注我们 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">关注我们</h3>
+                    <div class="flex flex-col items-center">
+                        <img src="https://tc-cdn.flowus.cn/oss/a996f374-9e7c-4db5-8160-36c7ca28d1ce/qrcode_for_gh_35b656c9b18b_344.jpg?time=1762096500&token=b7f4b1f36c1e9d0a22e1e4f5661d5f9f7c7beb6a461a69add337ca9605dc4cae&role=sharePaid" alt="微信公众号二维码" class="w-32 h-32 mb-2">
+                        <p class="text-gray-400 text-center">微信公众号：Andy超棒</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">© 2025 快捷魔方. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all-300">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 初始化AOS动画库
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // 移动端菜单切换
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // 教程标签切换
+            const tutorialTabs = document.querySelectorAll('.tutorial-tab');
+            const tutorialContents = document.querySelectorAll('.tutorial-content');
+            
+            tutorialTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // 移除所有标签的活动状态
+                    tutorialTabs.forEach(t => {
+                        t.classList.remove('active', 'bg-primary', 'text-white');
+                        t.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    
+                    // 添加当前标签的活动状态
+                    this.classList.add('active', 'bg-primary', 'text-white');
+                    this.classList.remove('bg-gray-200', 'text-gray-700');
+                    
+                    // 隐藏所有内容
+                    tutorialContents.forEach(content => {
+                        content.classList.add('hidden');
+                        content.classList.remove('active');
+                    });
+                    
+                    // 显示当前内容
+                    document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // FAQ手风琴效果
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    // 切换当前问题的答案显示/隐藏
+                    answer.classList.toggle('hidden');
+                    
+                    // 旋转图标
+                    if (answer.classList.contains('hidden')) {
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+            
+            // 返回顶部按钮
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // 减去导航栏高度
+                            behavior: 'smooth'
+                        });
+                        
+                        // 如果是移动端，点击后关闭菜单
+                        if (window.innerWidth < 768) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</body></html>
