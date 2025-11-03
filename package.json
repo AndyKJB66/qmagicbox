@@ -1,0 +1,36 @@
+{
+  "name": "kuaijie-mofang-website",
+  "version": "1.0.0",
+  "description": "快捷魔方产品官网 - 专业的Excel插件工具",
+  "main": "index.html",
+  "scripts": {
+    "build-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build-css-prod": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "dev": "npm run build-css-prod && python -m http.server 8000",
+    "start": "python -m http.server 8000",
+    "build": "npm run build-css-prod",
+    "preview": "python -m http.server 4173"
+  },
+  "keywords": [
+    "excel",
+    "plugin",
+    "office",
+    "productivity",
+    "快捷魔方"
+  ],
+  "author": "快捷魔方团队",
+  "license": "MIT",
+  "homepage": "https://kuaijie-mofang.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/kuaijie-mofang-website.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.16",
+    "autoprefixer": "^10.4.21",
+    "tailwindcss": "^4.1.16"
+  }
+}
