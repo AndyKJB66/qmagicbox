@@ -80,3 +80,51 @@
 .bg-gradient-hero {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
 }
+
+/* 统一图标容器为正方形并居中 */
+.icon-square {
+    width: 80px; /* 5rem 对应 w-20 */
+    height: 80px; /* 5rem 对应 h-20 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1; /* 避免字号影响容器高度 */
+}
+.icon-square i { line-height: 1; }
+
+/* 小型正方形图标容器（用于卡片内的小图标） */
+.icon-square-sm {
+    width: 40px; /* 2.5rem 对应 w-10 */
+    height: 40px; /* 2.5rem 对应 h-10 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    border-radius: 0.5rem; /* 近似 rounded-lg 兜底 */
+}
+.icon-square-sm i { line-height: 1; }
+
+/* 教程标签按钮样式修复（防止白字白底不可见） */
+.tutorial-tab {
+    background-color: #e5e7eb; /* gray-200 */
+    color: #374151; /* gray-700 */
+}
+.tutorial-tab.active {
+    background-color: #3B82F6; /* primary */
+    color: #ffffff;
+}
+
+/* 渐变色块中的图标强制居中（在无 Tailwind 构建时兜底） */
+.bg-gradient-primary.w-20.h-20,
+.bg-gradient-secondary.w-20.h-20,
+.bg-gradient-accent.w-20.h-20 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 深色页脚兜底样式（Tailwind 未生效时） */
+.bg-dark { background-color: #0f172a; }
+.text-white { color: #ffffff; }
+.text-gray-400 { color: #9ca3af; }
+.border-gray-800 { border-color: #1f2937; }
