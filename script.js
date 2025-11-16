@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化AOS动画库
     AOS.init({
-        duration: 800,
+        duration: 700,
         easing: 'ease-in-out',
         once: true
     });
@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     menuToggle.addEventListener('click', function() {
         mobileMenu.classList.toggle('hidden');
+        mobileMenu.classList.toggle('open');
     });
     
     // 教程标签切换
@@ -52,15 +53,20 @@ document.addEventListener('DOMContentLoaded', function() {
         question.addEventListener('click', function() {
             const answer = this.nextElementSibling;
             const icon = this.querySelector('i');
-            
-            // 切换当前问题的答案显示/隐藏
             answer.classList.toggle('hidden');
-            
-            // 旋转图标
             if (answer.classList.contains('hidden')) {
                 icon.style.transform = 'rotate(0deg)';
             } else {
                 icon.style.transform = 'rotate(180deg)';
+            }
+            this.setAttribute('aria-expanded', (!answer.classList.contains('hidden')).toString());
+            answer.setAttribute('aria-hidden', (answer.classList.contains('hidden')).toString());
+            answer.setAttribute('role', 'region');
+        });
+        question.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
             }
         });
     });
@@ -68,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 返回顶部按钮
     const backToTopButton = document.getElementById('back-to-top');
     
+    const header = document.querySelector('header');
     window.addEventListener('scroll', function() {
         if (window.pageYOffset > 300) {
             backToTopButton.classList.remove('opacity-0', 'invisible');
@@ -75,6 +82,11 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             backToTopButton.classList.add('opacity-0', 'invisible');
             backToTopButton.classList.remove('opacity-100', 'visible');
+        }
+        if (window.pageYOffset > 40) {
+            header.classList.add('is-scrolled');
+        } else {
+            header.classList.remove('is-scrolled');
         }
     });
     
@@ -102,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 如果是移动端，点击后关闭菜单
                 if (window.innerWidth < 768) {
                     mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('open');
                 }
             }
         });

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -146,11 +146,11 @@
                     
                     <!-- 行动按钮 -->
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#download" class="bg-gradient-primary text-white font-bold py-4 px-8 rounded-full hover:shadow-glow transition-all-300 transform hover:scale-105 text-center">
+                        <a href="#download" class="btn btn-primary text-center">
                             <i class="fa fa-download mr-2"></i>
                             立即免费下载
                         </a>
-                        <a href="#tutorial" class="border-2 border-primary text-primary font-bold py-4 px-8 rounded-full hover:bg-primary hover:text-white transition-all-300 text-center">
+                        <a href="#tutorial" class="btn btn-outline text-center">
                             <i class="fa fa-play mr-2"></i>
                             观看演示视频
                         </a>
@@ -159,7 +159,7 @@
                     <!-- 信任标识 -->
                     <div class="mt-8 flex items-center justify-center md:justify-start space-x-6 text-sm text-gray-500">
                         <div class="flex items-center space-x-2">
-                            <i class="fa fa-shield-alt text-green-500"></i>
+                            <i class="fa fa-shield text-green-500"></i>
                             <span>安全可靠</span>
                         </div>
                         <div class="flex items-center space-x-2">
@@ -167,7 +167,7 @@
                             <span>免费下载</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <i class="fa fa-headset text-purple-500"></i>
+                            <i class="fa fa-headphones text-purple-500"></i>
                             <span>专业支持</span>
                         </div>
                     </div>
@@ -861,7 +861,7 @@
                                     </a>
                                 </div>
                                 <p class="text-gray-500 text-sm">
-                                    此步骤非必需，但如果您的系统非常老旧（如Win7），请优先考虑安装这两个运行环境。
+                                    此步骤非必需，但如果您的系统非常老旧（如Win7），或者安装后打开COM加载项插件列表为空，请优先考虑安装这两个运行环境。
                                 </p>
                             </div>
                         </div>
@@ -1569,7 +1569,37 @@
                         </div>
                     </div>
                 </div>
-                
+
+                    <!-- 问题6 -->
+                    <div class="group bg-white rounded-2xl shadow-soft overflow-hidden border border-gray-100 hover:border-red-300 transition-all-300" data-aos="fade-up" data-aos-delay="600" style="margin-top:1.5rem;">
+                        <button class="faq-question w-full flex justify-between items-center p-6 text-left font-semibold text-lg hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <div class="bg-gradient-to-r from-red-500 to-pink-500 text-white p-2 rounded-lg mr-4 flex-shrink-0">
+                                    <i class="fa fa-shield text-lg"></i>
+                                </div>
+                                <span>下载安装时为什么360报病毒？</span>
+                            </div>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform group-hover:text-red-500"></i>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-6">
+                            <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-xl p-4 border-l-4 border-red-400">
+                                <p class="text-gray-700 leading-relaxed mb-4">
+                                    插件为Andy老师个人开发，安装程序未购买软件签名与360官方认证。程序并无病毒，可先暂时退出360再行安装；如果介意，可以放弃下载安装。
+                                </p>
+                                <div class="space-y-3">
+                                    <div class="flex items-start">
+                                        <i class="fa fa-info-circle text-red-500 mr-3 mt-1"></i>
+                                        <p class="text-gray-700">属常见的误报情形，未做代码签名的个人软件易被误报。</p>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <i class="fa fa-times-circle text-red-500 mr-3 mt-1"></i>
+                                        <p class="text-gray-700">如不信任，可放弃安装；我们尊重您的选择。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                <!-- 联系支持 -->
 <div class="mt-16 text-center" data-aos="fade-up">
     <div class="bg-white rounded-3xl shadow-soft p-8 border border-gray-100 max-w-2xl mx-auto">
@@ -1594,11 +1624,11 @@
 
         <!-- 操作按钮区域 -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#" class="bg-gradient-primary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all-300 flex items-center justify-center">
+            <a href="#" class="btn btn-primary">
                 <i class="fa fa-wechat mr-2"></i>
                 微信咨询
             </a>
-            <a href="#" class="bg-white border-2 border-primary text-primary px-6 py-3 rounded-xl font-semibold hover:bg-primary hover:text-white transition-all-300 flex items-center justify-center">
+            <a href="#" class="btn btn-outline">
                 <i class="fa fa-envelope mr-2"></i>
                 邮件支持
             </a>
@@ -1677,7 +1707,7 @@
     </footer>
 
     <!-- 返回顶部按钮 -->
-    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all-300">
+    <button id="back-to-top" aria-label="返回顶部" class="fixed bottom-8 right-8 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all-300">
         <i class="fa fa-arrow-up"></i>
     </button>
 
